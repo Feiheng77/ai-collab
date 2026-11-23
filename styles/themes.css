@@ -1,0 +1,75 @@
+/* 定稿配色：A 套（暖白底 + 近黑正文 + 饱和亮橙强调） */
+
+:root {
+  --bg: #FAF7F2;
+  --bg-subtle: #F3ECE2;
+  --surface: #FFFDF9;
+  --surface-chat: #FCF9F4;
+  --ink: #1E1B18;
+  --ink-2: #4E463F;
+  --ink-3: #6D635A;
+  --border: #E6DDD1;
+  --border-strong: #D2C3B1;
+
+  --accent: #C9460E;
+  --accent-bright: #F26419;
+  --accent-hover: #AE3A09;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #FFF0E4;
+  --accent-soft-border: #F4C7A6;
+  --accent-soft-ink: #8E2E06;
+
+  --directive-bg: #FFE9D6;
+  --directive-border: #F2A877;
+  --directive-ink: #8A2C05;
+  --ignored-bg: #EDE5DA;
+  --ignored-border: #CBBBA8;
+  --ignored-ink: #574D44;
+
+  --user-bubble-bg: #FFF0E4;
+  --user-bubble-border: #F4C7A6;
+  --user-bubble-ink: #291B12;
+  --bot-bubble-bg: #FFFFFF;
+  --bot-bubble-border: #E6DDD1;
+
+  --paper-bg: #FFFFFF;
+  --paper-border: #DFD4C5;
+  --slit-bg: #3A322C;
+  --notice-bg: #FFF4EC;
+  --notice-border: #F2B58D;
+  --notice-ink: #8E2E06;
+
+  --ok-bg: #EFF7EE;
+  --ok-border: #BBD8B8;
+  --ok-ink: #265928;
+  --warn-bg: #FFF3E8;
+  --warn-border: #F0BC92;
+  --warn-ink: #8E2E06;
+
+  /* C2 称重条暖色系分块（适配任意块数，均满足 AA 对比度） */
+  --seg-0: #C4420C;
+  --seg-0-ink: #FFFFFF;
+  --seg-1: #F08A24;
+  --seg-1-ink: #1E1B18;
+  --seg-2: #8F4A23;
+  --seg-2-ink: #FFFFFF;
+  --seg-3: #E6B552;
+  --seg-3-ink: #1E1B18;
+  --seg-4: #9E5128;
+  --seg-4-ink: #FFFFFF;
+  --seg-5: #C9A47E;
+  --seg-5-ink: #1E1B18;
+  --seg-6: #6E5544;
+  --seg-6-ink: #FFFFFF;
+  --seg-7: #DFC7AE;
+  --seg-7-ink: #1E1B18;
+
+  --radius-card: 12px;
+  --radius-inner: 10px;
+  --radius-control: 10px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 0 rgba(30, 27, 24, 0.05);
+  --shadow-paper: 0 6px 14px rgba(30, 27, 24, 0.08);
+  --focus-ring: #F26419;
+}

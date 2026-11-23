@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>展示站</title>
+  <meta name="description" content="">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles/themes.css?v=1123b">
+  <link rel="stylesheet" href="styles/base.css?v=1123b">
+</head>
+<body>
+  <header class="site-header" id="site-header">
+    <div class="site-header-inner">
+      <div class="nav-brand-group" id="nav-brand-group">
+        <a class="nav-brand" href="#top" id="nav-brand"></a>
+        <button type="button" class="nav-brand nav-brand-trigger" id="nav-brand-trigger" aria-expanded="false" aria-controls="nav-note-pop" hidden></button>
+        <span class="nav-brand-note" id="nav-brand-note" hidden></span>
+      </div>
+      <nav class="nav-links" id="nav-links"></nav>
+      <span class="nav-asof" id="nav-asof"></span>
+    </div>
+    <div class="nav-note-pop" id="nav-note-pop" role="note" hidden></div>
+  </header>
+
+  <noscript>
+    <p class="noscript-banner">这个页面需要开启 JavaScript。</p>
+  </noscript>
+
+  <main class="page-main">
+    <section id="top" class="section-hero" aria-labelledby="hero-headline">
+      <p id="hero-kicker" class="hero-kicker"></p>
+      <h1 id="hero-headline" class="hero-headline"></h1>
+      <p id="hero-sub" class="hero-sub"></p>
+      <div id="stat-strip"></div>
+      <div id="hero-pillars" hidden></div>
+    </section>
+
+    <section id="play" class="section-block" aria-labelledby="play-title">
+      <header class="section-header">
+        <p class="section-code" aria-hidden="true">01</p>
+        <h2 id="play-title" class="section-title"></h2>
+        <p id="play-lead" class="section-lead"></p>
+      </header>
+      <div id="directive-playground"></div>
+    </section>
+
+    <section id="arch" class="section-block" aria-labelledby="arch-title">
+      <header class="section-header">
+        <p class="section-code" aria-hidden="true">02</p>
+        <h2 id="arch-title" class="section-title"></h2>
+        <p id="arch-lead" class="section-lead"></p>
+      </header>
+      <div id="arch-diagram"></div>
+    </section>
+
+    <div id="stories-root"></div>
+
+    <section id="split" class="section-block" aria-labelledby="split-title">
+      <header class="section-header">
+        <p class="section-code" aria-hidden="true">06</p>
+        <h2 id="split-title" class="section-title"></h2>
+      </header>
+      <div id="split-content"></div>
+    </section>
+
+    <section id="about" class="section-block" aria-labelledby="about-title">
+      <header class="section-header">
+        <p class="section-code" aria-hidden="true">07</p>
+        <h2 id="about-title" class="section-title"></h2>
+      </header>
+      <div id="about-content"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p id="footer-text" class="footer-text"></p>
+    </div>
+  </footer>
+
+  <script type="module" src="components/app.js?v=1123b"></script>
+</body>
+</html>
