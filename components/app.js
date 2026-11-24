@@ -1,13 +1,13 @@
-import { SITE } from "../content/site.zh.js?v=1124a";
-import { DEMO } from "../content/demo-data.js?v=1124a";
-import { mount as mountStatStrip } from "./stat-strip.js?v=1124a";
-import { mount as mountDirectivePlayground } from "./directive-playground.js?v=1124a";
-import { mount as mountArchDiagram } from "./arch-diagram.js?v=1124a";
-import { mount as mountContextScale } from "./context-scale.js?v=1124a";
-import { mount as mountMemoryLifecycle } from "./memory-lifecycle.js?v=1124a";
-import { mount as mountHubCards } from "./hub-cards.js?v=1124a";
-import { mount as mountPrinterRelay } from "./printer-relay.js?v=1124a";
-import { mount as mountRelayRoom } from "./relay-room.js?v=1124a";
+import { SITE } from "../content/site.zh.js?v=1124b";
+import { DEMO } from "../content/demo-data.js?v=1124b";
+import { mount as mountStatStrip } from "./stat-strip.js?v=1124b";
+import { mount as mountDirectivePlayground } from "./directive-playground.js?v=1124b";
+import { mount as mountArchDiagram } from "./arch-diagram.js?v=1124b";
+import { mount as mountContextScale } from "./context-scale.js?v=1124b";
+import { mount as mountMemoryLifecycle } from "./memory-lifecycle.js?v=1124b";
+import { mount as mountHubCards } from "./hub-cards.js?v=1124b";
+import { mount as mountPrinterRelay } from "./printer-relay.js?v=1124b";
+import { mount as mountRelayRoom } from "./relay-room.js?v=1124b";
 
 const LABELS = {
   navAria: "页内导航",

@@ -2745,6 +2745,344 @@ section[id] {
   font-variant-numeric: tabular-nums;
 }
 
+/* Mobile Typography Scale (< 720px) */
+@media (max-width: 719px) {
+  body {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  .nav-brand {
+    font-size: 12px;
+  }
+
+  .nav-link {
+    font-size: 11px;
+  }
+
+  .nav-note-pop {
+    font-size: 11.5px;
+  }
+
+  .section-hero {
+    padding: 22px 0 28px;
+  }
+
+  .hero-kicker {
+    font-size: 11px;
+    padding: 3px 9px;
+    margin-bottom: 10px;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.18rem, 5vw, 1.45rem);
+    margin-bottom: 10px;
+  }
+
+  .hero-sub {
+    font-size: 12.5px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    padding: 12px 12px 11px;
+  }
+
+  .stat-value {
+    font-size: 18px;
+  }
+
+  .stat-unit {
+    font-size: 11.5px;
+  }
+
+  .stat-label {
+    font-size: 11.5px;
+    margin-bottom: 5px;
+  }
+
+  .stat-note {
+    font-size: 10.5px;
+  }
+
+  .pillar-card {
+    padding: 12px 13px 11px;
+  }
+
+  .pillar-title {
+    font-size: 13px;
+  }
+
+  .pillar-jump {
+    font-size: 11px;
+  }
+
+  .pillar-text {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .pillar-toggle {
+    font-size: 11.5px;
+  }
+
+  .pillar-tag,
+  .pillar-code,
+  .section-kicker {
+    font-size: 10.5px;
+  }
+
+  .section-group {
+    padding: 28px 0 0;
+  }
+
+  .group-header {
+    padding: 12px 14px;
+  }
+
+  .group-title {
+    font-size: 16px;
+  }
+
+  .group-lead {
+    font-size: 12px;
+  }
+
+  .section-block {
+    padding: 28px 0;
+  }
+
+  .group-item {
+    padding: 24px 0 28px;
+  }
+
+  .section-title {
+    font-size: 16.5px;
+  }
+
+  .section-lead {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  .story-block {
+    padding: 12px 13px;
+  }
+
+  .story-step-code {
+    font-size: 10.5px;
+  }
+
+  .story-block-title {
+    font-size: 11.5px;
+  }
+
+  .story-block-text {
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+
+  .her-placeholder {
+    font-size: 11.5px;
+  }
+
+  .story-extra-list {
+    font-size: 12px;
+  }
+
+  .story-seat-row dt {
+    font-size: 11.5px;
+  }
+
+  .story-seat-row dd {
+    font-size: 12px;
+  }
+
+  .dp-tab {
+    font-size: 12px;
+  }
+
+  .dp-pane-head,
+  .dp-raw-code,
+  .dp-switch,
+  .dp-notice,
+  .dp-btn,
+  .dp-timer-status,
+  .dp-note {
+    font-size: 11.5px;
+  }
+
+  .dp-bubble {
+    font-size: 12.5px;
+  }
+
+  .dp-opt-btn,
+  .dp-paper-text,
+  .dp-printer-preview {
+    font-size: 12px;
+  }
+
+  .dp-printer-counter {
+    font-size: 11px;
+  }
+
+  .dp-timer-num {
+    font-size: 16px;
+  }
+
+  .dp-timer-title {
+    font-size: 13px;
+  }
+
+  .arch-layer-tag,
+  .arch-story-link {
+    font-size: 11.5px;
+  }
+
+  .arch-detail-label {
+    font-size: 12.5px;
+  }
+
+  .arch-detail-hint {
+    font-size: 12px;
+  }
+
+  .cs-mode-btn,
+  .cs-drawer-title,
+  .cs-total-unit {
+    font-size: 11.5px;
+  }
+
+  .cs-total-num {
+    font-size: 19px;
+  }
+
+  .cs-delta,
+  .cs-legend-btn,
+  .cs-drawer-code,
+  .cs-caption,
+  .cs-seg-name {
+    font-size: 11px;
+  }
+
+  .cs-seg-val {
+    font-size: 10.5px;
+  }
+
+  .ml-step-btn,
+  .ml-bucket-name,
+  .ml-distill-item,
+  .ml-bug-fix-item,
+  .ml-bug-picked-item {
+    font-size: 11.5px;
+  }
+
+  .ml-step2-note,
+  .ml-mem-text,
+  .ml-mini-title,
+  .ml-query,
+  .ml-bug-trigger,
+  .ml-bug-answer,
+  .ml-bug-cause {
+    font-size: 12px;
+  }
+
+  .ml-mem-meta,
+  .ml-bug-sub {
+    font-size: 11px;
+  }
+
+  .hc-counts,
+  .hc-card-title,
+  .hc-msg,
+  .hc-pipe-hint,
+  .hc-pipeline-title,
+  .hc-pipe-btn {
+    font-size: 11.5px;
+  }
+
+  .hc-detail-title {
+    font-size: 13px;
+  }
+
+  .hc-dl-row dd {
+    font-size: 12px;
+  }
+
+  .hc-col-title,
+  .hc-card-scope,
+  .hc-progress-step,
+  .hc-dl-row dt {
+    font-size: 11px;
+  }
+
+  .pr-station-name,
+  .pr-held-item,
+  .pr-next-note {
+    font-size: 11.5px;
+  }
+
+  .pr-station-badge {
+    font-size: 10.5px;
+  }
+
+  .rr-msg-text {
+    font-size: 12px;
+  }
+
+  .rr-msg-head,
+  .rr-avatar {
+    font-size: 11.5px;
+  }
+
+  .rr-pause,
+  .rr-seat-name,
+  .rr-handoff {
+    font-size: 11px;
+  }
+
+  .split-card {
+    padding: 13px 14px 12px;
+  }
+
+  .split-card-title {
+    font-size: 13.5px;
+  }
+
+  .split-list {
+    font-size: 12.5px;
+    line-height: 1.6;
+    gap: 6px;
+  }
+
+  .split-sub-title {
+    font-size: 14px;
+    margin: 18px 0 10px;
+  }
+
+  .split-item-card {
+    padding: 13px;
+  }
+
+  .split-item-what {
+    font-size: 13px;
+  }
+
+  .split-item-why,
+  .incident-meta {
+    font-size: 12px;
+  }
+
+  .incident-tag {
+    font-size: 10.5px;
+  }
+
+  .footer-text {
+    font-size: 11.5px;
+  }
+}
+
 /* Tablet & Desktop Breakpoints */
 @media (min-width: 720px) {
   .site-header-inner {

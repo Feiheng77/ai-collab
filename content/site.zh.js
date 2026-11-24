@@ -5,7 +5,7 @@ export const SITE = {
     "desc": "一个带长期记忆的个人 AI 助手：怎么做出来的，怎么养了六个月+。",
     "asOf": "",
     "noindex": true,
-    "version": "1124a"
+    "version": "1124b"
   },
   "nav": [
     { "id": "infra", "label": "基建" },
