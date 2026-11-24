@@ -454,7 +454,7 @@ export function mount(el, data) {
       rank.textContent = `#${idx + 1}`;
 
       const txt = document.createElement("span");
-      txt.textContent = mem ? `${mem.text} (${mem.date})` : id;
+      txt.textContent = mem ? `${mem.text}（${mem.date}）` : id;
 
       li.append(rank, txt);
       ol.append(li);

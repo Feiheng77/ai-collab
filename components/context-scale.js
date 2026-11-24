@@ -2,7 +2,7 @@ const LABELS = {
   beforePrefix: "之前 ",
   afterPrefix: "之后 ",
   tokenUnit: "token",
-  illustrativeNote: "各块大小为示意,总数为实测(2026-06-27)",
+  illustrativeNote: "各块大小为示意，总数为实测（2026-06-27）",
   barAria: "上下文分块占比",
   modeAria: "切换前后对比",
   drawerClose: "收起"

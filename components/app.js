@@ -1,14 +1,15 @@
-import { SITE } from "../content/site.zh.js?v=1123b";
-import { DEMO } from "../content/demo-data.js?v=1123b";
-import { mount as mountStatStrip } from "./stat-strip.js?v=1123b";
-import { mount as mountDirectivePlayground } from "./directive-playground.js?v=1123b";
-import { mount as mountArchDiagram } from "./arch-diagram.js?v=1123b";
-import { mount as mountContextScale } from "./context-scale.js?v=1123b";
-import { mount as mountMemoryLifecycle } from "./memory-lifecycle.js?v=1123b";
-import { mount as mountHubCards } from "./hub-cards.js?v=1123b";
+import { SITE } from "../content/site.zh.js?v=1124a";
+import { DEMO } from "../content/demo-data.js?v=1124a";
+import { mount as mountStatStrip } from "./stat-strip.js?v=1124a";
+import { mount as mountDirectivePlayground } from "./directive-playground.js?v=1124a";
+import { mount as mountArchDiagram } from "./arch-diagram.js?v=1124a";
+import { mount as mountContextScale } from "./context-scale.js?v=1124a";
+import { mount as mountMemoryLifecycle } from "./memory-lifecycle.js?v=1124a";
+import { mount as mountHubCards } from "./hub-cards.js?v=1124a";
+import { mount as mountPrinterRelay } from "./printer-relay.js?v=1124a";
+import { mount as mountRelayRoom } from "./relay-room.js?v=1124a";
 
 const LABELS = {
-  asOfPrefix: "截至 ",
   navAria: "页内导航",
   pillarsAria: "核心模块",
   pillarJump: "看详情",
@@ -26,8 +27,7 @@ const LABELS = {
   splitRejected: "我否掉、砍掉的",
   splitIncidents: "出过的事",
   incidentCause: "原因",
-  incidentRule: "之后怎么做",
-  aboutLinksAria: "相关链接"
+  incidentRule: "之后怎么做"
 };
 
 function setText(id, text) {
@@ -47,7 +47,6 @@ function renderHeader() {
   const nameNote = (SITE.meta?.nameNote || "").trim();
 
   setText("nav-brand", brandName);
-  setText("nav-asof", SITE.meta?.asOf ? `${LABELS.asOfPrefix}${SITE.meta.asOf}` : "");
 
   const group = document.getElementById("nav-brand-group");
   const trigger = document.getElementById("nav-brand-trigger");
@@ -103,8 +102,18 @@ function renderHeader() {
   if (!navEl) return;
   navEl.setAttribute("aria-label", LABELS.navAria);
   navEl.innerHTML = "";
-  const navItems = Array.isArray(SITE.nav) ? SITE.nav : [];
-  for (const item of navItems) {
+  const navItems = (Array.isArray(SITE.nav) ? SITE.nav : [])
+    .filter((item) => item && item.id !== "about")
+    .map((item, idx) => ({ item, idx, target: document.getElementById(item.id) }))
+    .sort((a, b) => {
+      if (a.target && b.target && a.target !== b.target) {
+        const pos = a.target.compareDocumentPosition(b.target);
+        if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+        if (pos & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+      }
+      return a.idx - b.idx;
+    });
+  for (const { item } of navItems) {
     const a = document.createElement("a");
     a.className = "nav-link";
     a.href = `#${item.id}`;
@@ -205,107 +214,239 @@ function renderPillars() {
   host.append(grid);
 }
 
-function renderStories() {
-  const root = document.getElementById("stories-root");
+function buildArchSection() {
+  const section = document.createElement("section");
+  section.id = "arch";
+  section.className = "group-item";
+  section.setAttribute("aria-labelledby", "arch-title");
+
+  const header = document.createElement("header");
+  header.className = "section-header";
+
+  const h3 = document.createElement("h3");
+  h3.id = "arch-title";
+  h3.className = "section-title";
+  h3.textContent = SITE.arch?.title || "";
+
+  const lead = document.createElement("p");
+  lead.className = "section-lead";
+  lead.textContent = SITE.arch?.lead || "";
+
+  header.append(h3, lead);
+
+  const host = document.createElement("div");
+  host.id = "arch-diagram";
+  mountArchDiagram(host, SITE.arch);
+
+  section.append(header, host);
+  return section;
+}
+
+function appendStoryExtras(copyCol, extra) {
+  if (!extra || typeof extra !== "object") return;
+
+  if (Array.isArray(extra.how) && extra.how.length > 0) {
+    const box = document.createElement("article");
+    box.className = "story-block";
+    const title = document.createElement("h4");
+    title.className = "story-block-title";
+    title.textContent = extra.howTitle || "";
+    const ol = document.createElement("ol");
+    ol.className = "story-extra-list";
+    for (const line of extra.how) {
+      const li = document.createElement("li");
+      li.textContent = line;
+      ol.append(li);
+    }
+    box.append(title, ol);
+    copyCol.append(box);
+  }
+
+  if (Array.isArray(extra.seats) && extra.seats.length > 0) {
+    const box = document.createElement("article");
+    box.className = "story-block";
+    const title = document.createElement("h4");
+    title.className = "story-block-title";
+    title.textContent = extra.seatsTitle || "";
+    const dl = document.createElement("dl");
+    dl.className = "story-seats-dl";
+    for (const seat of extra.seats) {
+      const row = document.createElement("div");
+      row.className = "story-seat-row";
+      const dt = document.createElement("dt");
+      dt.textContent = seat.who ? `${seat.name}（${seat.who}）` : seat.name || "";
+      const dd = document.createElement("dd");
+      dd.textContent = seat.does || "";
+      row.append(dt, dd);
+      dl.append(row);
+    }
+    box.append(title, dl);
+    copyCol.append(box);
+  }
+
+  if (Array.isArray(extra.guards) && extra.guards.length > 0) {
+    const box = document.createElement("article");
+    box.className = "story-block";
+    const title = document.createElement("h4");
+    title.className = "story-block-title";
+    title.textContent = extra.guardsTitle || "";
+    const ul = document.createElement("ul");
+    ul.className = "story-extra-list";
+    for (const line of extra.guards) {
+      const li = document.createElement("li");
+      li.textContent = line;
+      ul.append(li);
+    }
+    box.append(title, ul);
+    copyCol.append(box);
+  }
+}
+
+function buildStorySection(story) {
+  const section = document.createElement("section");
+  section.id = story.id;
+  section.className = "group-item";
+  const headingId = `${story.id}-title`;
+  section.setAttribute("aria-labelledby", headingId);
+
+  const header = document.createElement("header");
+  header.className = "section-header";
+
+  if (story.kicker) {
+    const kicker = document.createElement("p");
+    kicker.className = "section-kicker";
+    kicker.textContent = story.kicker;
+    header.append(kicker);
+  }
+
+  const h3 = document.createElement("h3");
+  h3.id = headingId;
+  h3.className = "section-title";
+  h3.textContent = story.title || "";
+  header.append(h3);
+
+  const grid = document.createElement("div");
+  grid.className = "story-grid";
+
+  const copyCol = document.createElement("div");
+  copyCol.className = "story-copy";
+
+  const blocks = Array.isArray(story.blocks) ? story.blocks : [];
+  blocks.forEach((blk, blkIdx) => {
+    const box = document.createElement("article");
+    box.className = `story-block story-block--${blk.kind || "item"}`;
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "story-block-head";
+
+    const stepCode = document.createElement("span");
+    stepCode.className = "story-step-code";
+    stepCode.setAttribute("aria-hidden", "true");
+    stepCode.textContent = String(blkIdx + 1).padStart(2, "0");
+
+    const title = document.createElement("h4");
+    title.className = "story-block-title";
+    title.textContent = LABELS.blockKinds[blk.kind] || blk.kind || "";
+    titleRow.append(stepCode, title);
+    box.append(titleRow);
+
+    const trimmed = (blk.text || "").trim();
+    if (blk.owner === "her" && !trimmed) {
+      box.append(makeHerPlaceholder());
+    } else {
+      const p = document.createElement("p");
+      p.className = "story-block-text";
+      p.textContent = trimmed;
+      box.append(p);
+    }
+
+    copyCol.append(box);
+  });
+
+  appendStoryExtras(copyCol, story.extra);
+
+  const widgetCol = document.createElement("div");
+  widgetCol.className = "story-widget";
+
+  if (story.component === "context-scale") {
+    mountContextScale(widgetCol, { context: DEMO.context, flags: SITE.flags });
+  } else if (story.component === "memory-lifecycle") {
+    mountMemoryLifecycle(widgetCol, {
+      memoryChat: DEMO.memoryChat,
+      memories: DEMO.memories,
+      recall: DEMO.recall,
+      extra: story.extra
+    });
+  } else if (story.component === "hub-cards") {
+    mountHubCards(widgetCol, {
+      hubCards: DEMO.hubCards,
+      pipeline: DEMO.pipeline,
+      extra: story.extra
+    });
+  } else if (story.component === "printer-relay") {
+    mountPrinterRelay(widgetCol, DEMO.printer);
+  } else if (story.component === "relay-room") {
+    mountRelayRoom(widgetCol, DEMO.relay);
+  }
+
+  grid.append(copyCol, widgetCol);
+  section.append(header, grid);
+  return section;
+}
+
+function renderGroups() {
+  const root = document.getElementById("groups-root");
   if (!root) return;
   root.innerHTML = "";
 
   const stories = Array.isArray(SITE.stories) ? SITE.stories : [];
-  stories.forEach((story, storyIdx) => {
-    const section = document.createElement("section");
-    section.id = story.id;
-    section.className = "section-block";
-    const headingId = `${story.id}-title`;
-    section.setAttribute("aria-labelledby", headingId);
+  const storyById = new Map(stories.map((s) => [s.id, s]));
+  const groups = Array.isArray(SITE.groups) ? SITE.groups : [];
+
+  if (groups.length === 0) {
+    if (SITE.arch) root.append(buildArchSection());
+    for (const story of stories) {
+      root.append(buildStorySection(story));
+    }
+    return;
+  }
+
+  for (const group of groups) {
+    const groupSection = document.createElement("section");
+    groupSection.id = group.id;
+    groupSection.className = "section-group";
+    const groupHeadingId = `${group.id}-title`;
+    groupSection.setAttribute("aria-labelledby", groupHeadingId);
 
     const header = document.createElement("header");
-    header.className = "section-header";
-
-    const codeRow = document.createElement("div");
-    codeRow.className = "section-meta-row";
-
-    const code = document.createElement("span");
-    code.className = "section-code";
-    code.setAttribute("aria-hidden", "true");
-    code.textContent = String(storyIdx + 3).padStart(2, "0");
-    codeRow.append(code);
-
-    if (story.kicker) {
-      const kicker = document.createElement("p");
-      kicker.className = "section-kicker";
-      kicker.textContent = story.kicker;
-      codeRow.append(kicker);
-    }
-    header.append(codeRow);
+    header.className = "group-header";
 
     const h2 = document.createElement("h2");
-    h2.id = headingId;
-    h2.className = "section-title";
-    h2.textContent = story.title || "";
+    h2.id = groupHeadingId;
+    h2.className = "group-title";
+    h2.textContent = group.title || "";
     header.append(h2);
 
-    const grid = document.createElement("div");
-    grid.className = "story-grid";
-
-    const copyCol = document.createElement("div");
-    copyCol.className = "story-copy";
-
-    const blocks = Array.isArray(story.blocks) ? story.blocks : [];
-    blocks.forEach((blk, blkIdx) => {
-      const box = document.createElement("article");
-      box.className = `story-block story-block--${blk.kind || "item"}`;
-
-      const titleRow = document.createElement("div");
-      titleRow.className = "story-block-head";
-
-      const stepCode = document.createElement("span");
-      stepCode.className = "story-step-code";
-      stepCode.setAttribute("aria-hidden", "true");
-      stepCode.textContent = String(blkIdx + 1).padStart(2, "0");
-
-      const title = document.createElement("h3");
-      title.className = "story-block-title";
-      title.textContent = LABELS.blockKinds[blk.kind] || blk.kind || "";
-      titleRow.append(stepCode, title);
-      box.append(titleRow);
-
-      const trimmed = (blk.text || "").trim();
-      if (blk.owner === "her" && !trimmed) {
-        box.append(makeHerPlaceholder());
-      } else {
-        const p = document.createElement("p");
-        p.className = "story-block-text";
-        p.textContent = trimmed;
-        box.append(p);
-      }
-
-      copyCol.append(box);
-    });
-
-    const widgetCol = document.createElement("div");
-    widgetCol.className = "story-widget";
-
-    if (story.component === "context-scale") {
-      mountContextScale(widgetCol, { context: DEMO.context, flags: SITE.flags });
-    } else if (story.component === "memory-lifecycle") {
-      mountMemoryLifecycle(widgetCol, {
-        memoryChat: DEMO.memoryChat,
-        memories: DEMO.memories,
-        recall: DEMO.recall,
-        extra: story.extra
-      });
-    } else if (story.component === "hub-cards") {
-      mountHubCards(widgetCol, {
-        hubCards: DEMO.hubCards,
-        pipeline: DEMO.pipeline,
-        extra: story.extra
-      });
+    if (group.lead) {
+      const lead = document.createElement("p");
+      lead.className = "group-lead";
+      lead.textContent = group.lead;
+      header.append(lead);
     }
 
-    grid.append(copyCol, widgetCol);
-    section.append(header, grid);
-    root.append(section);
-  });
+    groupSection.append(header);
+
+    const items = Array.isArray(group.items) ? group.items : [];
+    for (const itemId of items) {
+      if (itemId === "arch" && SITE.arch) {
+        groupSection.append(buildArchSection());
+      } else if (storyById.has(itemId)) {
+        groupSection.append(buildStorySection(storyById.get(itemId)));
+      }
+    }
+
+    root.append(groupSection);
+  }
 }
 
 function renderSplit() {
@@ -418,50 +559,6 @@ function renderSplit() {
   }
 }
 
-function renderAbout() {
-  const about = SITE.about;
-  const host = document.getElementById("about-content");
-  if (!about || !host) return;
-
-  setText("about-title", about.title);
-  host.innerHTML = "";
-
-  const box = document.createElement("div");
-  box.className = "about-box";
-
-  const originText = (about.origin || "").trim();
-  if (originText) {
-    const p1 = document.createElement("p");
-    p1.className = "about-p";
-    p1.textContent = originText;
-    box.append(p1);
-  }
-
-  if (about.privacy) {
-    const p2 = document.createElement("p");
-    p2.className = "about-p";
-    p2.textContent = about.privacy;
-    box.append(p2);
-  }
-
-  const links = Array.isArray(about.links) ? about.links.filter((l) => l && l.href) : [];
-  if (links.length > 0) {
-    const wrap = document.createElement("nav");
-    wrap.className = "about-links";
-    wrap.setAttribute("aria-label", LABELS.aboutLinksAria);
-    for (const link of links) {
-      const a = document.createElement("a");
-      a.className = "about-link";
-      a.href = link.href;
-      a.textContent = link.label || link.href;
-      wrap.append(a);
-    }
-    box.append(wrap);
-  }
-
-  host.append(box);
-}
-
 function init() {
   if (SITE.meta && SITE.meta.title) {
     document.title = SITE.meta.title;
@@ -473,25 +570,20 @@ function init() {
 
   void SITE.flags?.roleTab; // D4: v1 为假，不渲染角色系统栏
 
-  renderHeader();
-
   setText("hero-kicker", SITE.hero.kicker);
   setText("hero-headline", SITE.hero.headline);
   setText("hero-sub", SITE.hero.sub);
   mountStatStrip(document.getElementById("stat-strip"), SITE.hero.stats);
   renderPillars();
 
+  renderGroups();
+
   setText("play-title", SITE.play.title);
   setText("play-lead", SITE.play.lead);
   mountDirectivePlayground(document.getElementById("directive-playground"), DEMO.directives);
 
-  setText("arch-title", SITE.arch.title);
-  setText("arch-lead", SITE.arch.lead);
-  mountArchDiagram(document.getElementById("arch-diagram"), SITE.arch);
-
-  renderStories();
   renderSplit();
-  renderAbout();
+  renderHeader();
   setText("footer-text", SITE.footer);
 }
 

@@ -20,22 +20,30 @@ export function mount(el, stats) {
     const valueEl = document.createElement("span");
     valueEl.className = "stat-value";
     valueEl.textContent = String(item.value);
+    valueRow.append(valueEl);
 
-    const unitEl = document.createElement("span");
-    unitEl.className = "stat-unit";
-    unitEl.textContent = item.unit || "";
-
-    valueRow.append(valueEl, unitEl);
+    const unitText = (item.unit || "").trim();
+    if (unitText) {
+      const unitEl = document.createElement("span");
+      unitEl.className = "stat-unit";
+      unitEl.textContent = unitText;
+      valueRow.append(unitEl);
+    }
 
     const labelEl = document.createElement("p");
     labelEl.className = "stat-label";
     labelEl.textContent = item.label || "";
 
-    const noteEl = document.createElement("p");
-    noteEl.className = "stat-note";
-    noteEl.textContent = item.note || "";
+    li.append(valueRow, labelEl);
 
-    li.append(valueRow, labelEl, noteEl);
+    const noteText = (item.note || "").trim();
+    if (noteText) {
+      const noteEl = document.createElement("p");
+      noteEl.className = "stat-note";
+      noteEl.textContent = noteText;
+      li.append(noteEl);
+    }
+
     list.append(li);
   }
 

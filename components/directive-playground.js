@@ -13,7 +13,7 @@ const LABELS = {
   unitShort: "分",
   printBtn: "模拟出纸",
   nightLabel: "现在是夜里",
-  nightMsg: "夜里不出纸,先揣着,早上再打",
+  nightMsg: "夜里不出纸，先揣着，早上再打",
   countPrefix: "今天第 ",
   countSep: " / ",
   countSuffix: " 张",
